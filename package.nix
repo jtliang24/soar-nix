@@ -1,17 +1,18 @@
 {
   stdenv,
-  fetchFromGitHub,
+  fetchzip,
   ...
 }:
 stdenv.mkDerivation {
   pname = "soar";
   version = "v0.9.1";
 
-  src = fetchFromGitHub {
-    owner = "pkgforge";
-    repo = "soar";
-    rev = "v0.9.1";
-    sha256 = "sha256-081wCf5ICT32wiVnGbksr9Z2iYCcaB9Ba8lmaJZ3ekk=";
+  src = fetchzip {
+    url = "https://github.com/pkgforge/soar/releases/download/v0.9.1/soar-x86_64-linux.tar.gz";
+    hash = "sha256-SGQrNLNFDN3SHSTX6FMFy46nQBTK+I91znU/CyMTfBE=";
   };
 
+  installPhase = ''
+    install -Dm755 soar $out/bin/soar
+  '';
 }

@@ -1,5 +1,5 @@
 {
-  description = "A very basic flake";
+  description = "A flake for using Soar declaratively";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
@@ -11,8 +11,6 @@
       pkgs = import nixpkgs { system = "x86_64-linux"; };
     in
     {
-
       packages.x86_64-linux.soar = pkgs.callPackage ./package.nix { };
-
     };
 }
