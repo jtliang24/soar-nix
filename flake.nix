@@ -15,12 +15,25 @@
         #"loongarch64-linux"
         #"riscv64-linux"
       ];
-      forAllSystems = f: builtins.listToAttrs (map (system: { name = system; value = f system; }) systems);
+      forAllSystems =
+        f:
+        builtins.listToAttrs (
+          map (system: {
+            name = system;
+            value = f system;
+          }) systems
+        );
     in
     {
-      packages = forAllSystems (system:
-        let pkgs = import nixpkgs { inherit system; };
-        in { soar = pkgs.callPackage ./package.nix { inherit version; }; }
+      packages = forAllSystems (
+        system:
+        let
+          pkgs = import nixpkgs { inherit system; };
+        in
+        {
+          soar = pkgs.callPackage ./package.nix { inherit version; };
+          default = self.packages.${system}.soar;
+        }
       );
     };
 }
